@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research Opportunity Portal</title><link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script></head>
+<body>
+<header><a class="brand" href="/"><span class="brand-icon">R</span><span>Research Portal<small>FAST NUCES · Peshawar</small></span></a><span class="student">Hammad Kashif · P24-0631 · BCS-5C</span></header>
+<main>
+<section class="intro"><div><p class="eyebrow">UNIVERSITY RESEARCH OPPORTUNITIES</p><h1>Find the next<br>big question.</h1><p class="subtitle">A shared space for faculty research openings.<br>Discover opportunities and manage them in one place.</p></div><button id="new-opportunity" class="primary">+ Post opportunity</button></section>
+<div id="notice" role="status" aria-live="polite" hidden></div>
+<section class="stats" aria-label="Opportunity statistics"><div><strong id="total-count">0</strong><span>Total opportunities</span></div><div><strong id="open-count">0</strong><span>Open for applications</span></div><div><strong id="positions-count">0</strong><span>Open positions</span></div></section>
+<section class="toolbar"><h2>Research opportunities</h2><div class="filters"><input id="search" type="search" placeholder="Search title, area or faculty" aria-label="Search opportunities"><select id="status-filter" aria-label="Filter by status"><option value="all">All statuses</option><option>Open</option><option>Closed</option></select><button id="refresh" class="secondary">Refresh</button></div></section>
+<div id="opportunities" class="grid" aria-live="polite"><p>Loading opportunities...</p></div>
+<footer>Computer Networks · Assignment 01 <span>Built with Python, MySQL &amp; JavaScript</span></footer>
+</main>
+<dialog id="editor"><form id="opportunity-form"><div class="dialog-head"><div><p class="eyebrow">FACULTY WORKSPACE</p><h2 id="form-title">Post a research opportunity</h2></div><button type="button" class="icon close-editor" aria-label="Close form">×</button></div><p class="hint">All fields are required. Changes are saved to the university database.</p><input type="hidden" id="opportunity-id">
+<label>Research title<input name="title" maxlength="200" required placeholder="e.g. Machine learning for crop health"></label>
+<label>Research description<textarea name="description" maxlength="10000" rows="3" required placeholder="Describe the project and the student's role"></textarea></label>
+<div class="form-grid"><label>Research area<input name="research_area" maxlength="100" required></label><label>Faculty member<input name="faculty_name" maxlength="100" required></label></div>
+<label>Department<input name="department" maxlength="100" required></label>
+<label>Required skills<input name="required_skills" maxlength="1000" required placeholder="e.g. Python, data analysis, teamwork"></label>
+<div class="form-grid"><label>Available positions<input name="available_positions" type="number" min="1" max="10000" step="1" required value="1"></label><label>Application deadline<input name="application_deadline" type="date" required></label></div>
+<label>Status<select name="status"><option>Open</option><option>Closed</option></select></label>
+<p id="form-error" class="form-error" role="alert" hidden></p><div class="form-actions"><button type="button" class="secondary close-editor">Cancel</button><button id="save" class="primary" type="submit">Save opportunity</button></div></form></dialog>
+<dialog id="details"><div class="dialog-head"><p class="eyebrow">OPPORTUNITY DETAILS</p><button id="close-details" class="icon" aria-label="Close details">×</button></div><div id="detail-content"></div></dialog>
+<dialog id="delete-dialog"><h2>Delete opportunity?</h2><p id="delete-description"></p><p>This will permanently remove this research opening.</p><div class="form-actions"><button id="cancel-delete" class="secondary">Cancel</button><button id="confirm-delete" class="danger">Delete opportunity</button></div></dialog>
+</body></html>
