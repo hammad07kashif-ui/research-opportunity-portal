@@ -1,0 +1,21 @@
+{
+  "passed": [
+    "Initial empty database displayed",
+    "Browser rejects required empty fields",
+    "Frontend create persists in MySQL",
+    "Details display all stored fields",
+    "Frontend edit persists",
+    "Close changes MySQL status",
+    "Reopen returns status to Open",
+    "List reads multiple API records",
+    "Search filters matching record",
+    "Status filter hides Open records",
+    "Mobile has no horizontal overflow",
+    "Server validation shown in frontend",
+    "Frontend deletion removes record",
+    "Stale record 404 displayed",
+    "Stored HTML is escaped",
+    "No browser JavaScript errors"
+  ],
+  "browser_errors": []
+}

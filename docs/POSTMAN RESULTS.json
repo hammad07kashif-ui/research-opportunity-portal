@@ -1,0 +1,257 @@
+{
+  "collection": "P24-0631 - Hammad Kashif - Research Opportunity Portal",
+  "runner": "Newman (Postman collection runner)",
+  "database": "MySQL 8.4.11",
+  "requests": {
+    "total": 13,
+    "pending": 0,
+    "failed": 0
+  },
+  "assertions": {
+    "total": 37,
+    "pending": 0,
+    "failed": 0
+  },
+  "failures": [],
+  "executions": [
+    {
+      "name": "01 Create opportunity 1",
+      "method": "POST",
+      "http_status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "ID and default fields",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "02 Create opportunity 2",
+      "method": "POST",
+      "http_status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "ID and default fields",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "03 Create opportunity 3",
+      "method": "POST",
+      "http_status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "ID and default fields",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "04 Retrieve all opportunities",
+      "method": "GET",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Three created records exist",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "05 Retrieve complete details",
+      "method": "GET",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Correct record and complete fields",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "06 Update title and positions",
+      "method": "PUT",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Changes returned",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "07 Close opportunity",
+      "method": "PUT",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Closed status",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "08 Verify saved update and status",
+      "method": "GET",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Update persisted",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "09 Delete opportunity",
+      "method": "DELETE",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Correct record deleted",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "10 Retrieve deleted opportunity - expected 404",
+      "method": "GET",
+      "http_status": 404,
+      "assertions": [
+        {
+          "name": "HTTP 404",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Not found message",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "11 Invalid or missing data - expected 400",
+      "method": "POST",
+      "http_status": 400,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        },
+        {
+          "name": "Field validation errors",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "12 Cleanup opportunity 2",
+      "method": "DELETE",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "13 Cleanup opportunity 3",
+      "method": "DELETE",
+      "http_status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "JSON response",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}
