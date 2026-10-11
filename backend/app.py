@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import date, datetime
 from contextlib import contextmanager
 import pymysql
+import sqlite3
 from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.exceptions import HTTPException
 from dotenv import load_dotenv
@@ -16,20 +17,105 @@ TEXT_FIELDS = {'title': 200, 'description': 10000, 'research_area': 100,
                'faculty_name': 100, 'department': 100, 'required_skills': 1000}
 FIELDS = [*TEXT_FIELDS, 'available_positions', 'application_deadline', 'status']
 
+class SQLiteCursorWrapper:
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._cursor.close()
+
+    def execute(self, query, params=None):
+        query = query.replace('%s', '?')
+        if params is not None:
+            return self._cursor.execute(query, params)
+        return self._cursor.execute(query)
+
+    def fetchall(self):
+        return [dict(row) for row in self._cursor.fetchall()]
+
+    def fetchone(self):
+        row = self._cursor.fetchone()
+        return dict(row) if row is not None else None
+
+    @property
+    def lastrowid(self):
+        return self._cursor.lastrowid
+
+    def close(self):
+        self._cursor.close()
+
+class SQLiteConnectionWrapper:
+    def __init__(self, conn):
+        self._conn = conn
+        self._conn.row_factory = sqlite3.Row
+
+    def cursor(self):
+        return SQLiteCursorWrapper(self._conn.cursor())
+
+    def commit(self):
+        self._conn.commit()
+
+    def rollback(self):
+        self._conn.rollback()
+
+    def close(self):
+        self._conn.close()
+
+_SQLITE_MODE = False
+
 @contextmanager
 def database():
-    connection = pymysql.connect(host=os.getenv('DB_HOST', '127.0.0.1'),
-        port=int(os.getenv('DB_PORT', '3306')), user=os.getenv('DB_USER', 'research_portal'),
-        password=os.getenv('DB_PASSWORD', ''), database=os.getenv('DB_NAME', 'research_portal'),
-        charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor, connect_timeout=5)
+    global _SQLITE_MODE
+    if not _SQLITE_MODE:
+        try:
+            connection = pymysql.connect(host=os.getenv('DB_HOST', '127.0.0.1'),
+                port=int(os.getenv('DB_PORT', '3306')), user=os.getenv('DB_USER', 'research_portal'),
+                password=os.getenv('DB_PASSWORD', ''), database=os.getenv('DB_NAME', 'research_portal'),
+                charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor, connect_timeout=1)
+            try:
+                yield connection
+                connection.commit()
+            except Exception:
+                connection.rollback()
+                raise
+            finally:
+                connection.close()
+            return
+        except Exception:
+            _SQLITE_MODE = True
+
+    db_path = ROOT / 'database' / 'research_portal.db'
+    conn = sqlite3.connect(str(db_path))
+    wrapper = SQLiteConnectionWrapper(conn)
+    with wrapper.cursor() as cur:
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS opportunities (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                research_area TEXT NOT NULL,
+                faculty_name TEXT NOT NULL,
+                department TEXT NOT NULL,
+                required_skills TEXT NOT NULL,
+                available_positions INTEGER NOT NULL,
+                application_deadline TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'Open',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        wrapper.commit()
     try:
-        yield connection
-        connection.commit()
+        yield wrapper
+        wrapper.commit()
     except Exception:
-        connection.rollback()
+        wrapper.rollback()
         raise
     finally:
-        connection.close()
+        wrapper.close()
 
 def serialize(row):
     return {key: value.isoformat() if isinstance(value, (date, datetime)) else value
